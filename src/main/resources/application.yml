@@ -1,0 +1,61 @@
+app:
+  name: abook-miraen
+
+spring:
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    properties:
+      hibernate:
+        format_sql: true
+        ddl-auto: update
+        dialect: org.hibernate.dialect.OracleDialect
+        physical_naming_strategy: com.tmax.rg.abook.global.config.DataSourcePhysicalNamingStrategy
+        default_batch_fetch_size: 500
+  profiles:
+    active: ${USE_PROFILE:none}
+  servlet:
+    multipart:
+      maxFileSize: 60MB
+      maxRequestSize: 60MB
+  data:
+    web:
+      pageable:
+        default-page-size: 50
+        max-page-size: 1000
+    redis:
+      host: localhost
+      port: 16379
+
+primary:
+  datasource:
+    url: jdbc:tibero:thin:@localhost:18629:tibero
+    driverClassName: com.tmax.tibero.jdbc.TbDriver
+    username: RGABOOKTEST
+    password: RGABOOKTEST
+
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        transaction: DEBUG
+      kurento: INFO
+
+
+springdoc:
+  swagger-ui:
+    tagsSorter: alpha
+  writer-with-order-by-keys: true
+
+server:
+  port: 8443
+  # for SSL
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store: classpath:keystore/rgabook.p12
+    key-store-password: Miracle!
+    key-alias: rgabook
+#    trust-store: classpath:keystore/rgabook.p12
+#    trust-store-password: Miracle!

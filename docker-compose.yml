@@ -1,0 +1,34 @@
+version: "3"
+services:
+  tibero-test:
+    build:
+      context: ./db
+    hostname: tmax
+    ports:
+      - 18629:8629
+    container_name: "tibero-test"
+    networks:
+      - backend-test
+
+  kurento-media-server:
+    image: kurento/kurento-media-server:latest
+    ports:
+      - 8888:8888/tcp
+      - 5000-5050:5000-5050/udp
+    environment:
+      KMS_MIN_PORT: 5000
+      KMS_MAX_PORT: 5050
+    networks:
+      - backend-test
+
+  redis-test:
+    image: redis:7.2-rc3
+    ports:
+      - 16379:6379
+    container_name: "redis-test"
+    networks:
+      - backend-test
+
+networks:
+  backend-test:
+    driver: bridge

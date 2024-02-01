@@ -1,0 +1,45 @@
+app:
+  name: abook-miraen
+
+spring:
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    properties:
+      hibernate:
+        format_sql: true
+        ddl-auto: update
+        dialect: org.hibernate.dialect.OracleDialect
+        physical_naming_strategy: com.tmax.rg.abook.global.config.DataSourcePhysicalNamingStrategy
+        default_batch_fetch_size: 500
+  servlet:
+    multipart:
+      maxFileSize: 60MB
+      maxRequestSize: 60MB
+  data:
+    web:
+      pageable:
+        default-page-size: 50
+        max-page-size: 1000
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+
+primary:
+  datasource:
+    url: jdbc:tibero:thin:@${PRIMARY_DB_HOST}:${PRIMARY_DB_PORT}:tibero
+    driverClassName: com.tmax.tibero.jdbc.TbDriver
+    username: ${PRIMARY_DB_USERNAME}
+    password: ${PRIMARY_DB_PASSWORD}
+
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        transaction: DEBUG
+
+springdoc:
+  swagger-ui:
+    tagsSorter: alpha
+  writer-with-order-by-keys: true
